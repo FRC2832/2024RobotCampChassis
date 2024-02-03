@@ -4,9 +4,12 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,6 +33,7 @@ public class Drivetrain extends SubsystemBase {
     rightRearMotor.follow(rightFrontMotor);
     leftRearMotor.follow(leftFrontMotor);
 
+
     // Sets the inversions up to for the follower to follow the leader
     // Inverts the left side motors
     rightRearMotor.setInverted(InvertType.FollowMaster);
@@ -42,13 +46,29 @@ public class Drivetrain extends SubsystemBase {
     rightFrontMotor.setSafetyEnabled(false);
     leftRearMotor.setSafetyEnabled(false);
     leftFrontMotor.setSafetyEnabled(false);
+
+   //rightRearMotor.setExpiration(.2); //default 0.1 s or 100 ms
+   //rightFrontMotor.setExpiration(.2);
+   // leftRearMotor.setExpiration(.2);
+   //leftFrontMotor.setExpiration(.2);
+
+    rightRearMotor.setSafetyEnabled(false);
+    rightFrontMotor.setSafetyEnabled(false);
+    leftRearMotor.setSafetyEnabled(false);
+    leftFrontMotor.setSafetyEnabled(false);
+
+
     robotDrive = new DifferentialDrive(leftFrontMotor, rightFrontMotor);
+    
+    robotDrive.setMaxOutput(0.9);
   }
 
   public void CoastalDifferentrialDrive(double leftSpeed, double rightSpeed) {
     robotDrive.tankDrive(leftSpeed, rightSpeed);
     SmartDashboard.putNumber("LeftSpeed", leftSpeed);
     SmartDashboard.putNumber("RightSpeed", rightSpeed);
+    //leftFrontMotor.set(ControlMode.PercentOutput, leftSpeed);
+    //rightFrontMotor.set(ControlMode.PercentOutput, rightSpeed);
   }
 
   @Override
